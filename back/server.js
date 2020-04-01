@@ -53,14 +53,14 @@ router.route('/jeux/add').post((req, res)=>{
             console.log(err)
         })
 })
-/* router.route('/jeux/view/:id').get((req, res)=>{
+router.route('/jeux/view/:id').get((req, res)=>{
     game.findById(req.params.id, (err, jeu)=>{
         if (err) {
             return res.json(err)
         }
         res.status(200).json(jeu)
     })
-}) */
+})
 /* router.route('/jeux/modif/:id').put((req, res)=>{
     const modif = {
         name: 'Element modifié',

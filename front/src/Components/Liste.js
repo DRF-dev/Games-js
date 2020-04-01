@@ -1,5 +1,8 @@
 import React from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
+
+import Navigation from './props/Navigation'
 
 export default class Liste extends React.Component{
 
@@ -112,9 +115,7 @@ export default class Liste extends React.Component{
     render(){ 
         return(
             <div>
-                <nav className="navbar navbar-light bg-light">
-                    <h1 className="navbar-item h4">Liste de jeux</h1>
-                </nav>
+                <Navigation/>
                 <div className="container">
                     <div className="row m-3">
                         <div className="col-12 col-md-5 mb-5 mb-md-0">
@@ -141,7 +142,7 @@ export default class Liste extends React.Component{
                                         </label>
                                     </div>
                                 </div>
-                                <button type="submit">Envoyer</button>
+                                <button type="submit" className="btn btn-outline-success" data-toggle="button" aria-pressed="false" autoComplete="off">Envoyer</button>
                             </form>
                         </div>
                         <div className="col-12 col-md-6 ml-md-5">
@@ -151,12 +152,10 @@ export default class Liste extends React.Component{
                                     return(
                                         <article className="list-group-item" key={item._id}>
                                             <div className="row">
-                                                <div className="col-10">
-                                                    <h3>{item.name}</h3>
-                                                    <p>Jeu appartenant à {item.proprio}</p>
-                                                    <p>{item.neuf === true?"Le jeu est disponible neuf":"Le jeu est disponible en occasion"}</p>
+                                                <div className="col-10 d-flex align-items-center align-items-md-end">
+                                                    <h2 className="h4"><Link to={"/game/"+item._id} className="text-secondary text-decoration-none">{item.name}</Link></h2>
                                                 </div>
-                                                <div className="col-2 d-flex h-50 position-relative" style={{top:25}}>
+                                                <div className="col-2">
                                                     <button className="btn-lg btn-outline-danger my-2 my-sm-0" onClick={()=>this.suppression(item)}>
                                                         <i className="fas fa-trash-alt"></i>
                                                     </button>
