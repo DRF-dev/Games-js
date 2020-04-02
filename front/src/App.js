@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-do
 
 import Liste from './Components/Liste'
 import Detail from './Components/Detail'
+import Inscription from './Components/Inscription'
 import NotFound from './Components/NotFound'
 
 class App extends React.Component{
@@ -12,6 +13,7 @@ class App extends React.Component{
         <Switch>
           <Route exact path="/" component={Liste}/>
           <Route path="/game/:id" component={Detail}/>
+          <Route exact path="/inscription" component={Inscription}/>
           <Route exact path="/404" component={NotFound}/>
           <Redirect to="/404"/>
         </Switch>

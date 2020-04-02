@@ -6,7 +6,7 @@ class NotFound extends React.Component{
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-12">
-                        <h1>Erreur 404, arrête de jouer avec l'URL</h1>
+                        <h1>Error 404, page not found</h1>
                     </div>
                 </div>
             </div>
