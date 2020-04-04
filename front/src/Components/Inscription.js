@@ -14,7 +14,7 @@ class Inscription extends React.Component{
             mail: "",
             mdp: "",
             confirmation: "",
-            listeMailExistant: [],
+            listeMailExistant: []
         }
     }
 
