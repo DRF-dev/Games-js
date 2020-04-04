@@ -131,3 +131,29 @@ router.route('/user/all').get(async(req, res)=>{
     .then(users=> res.status(200).json(users))
     .catch(err=> res.status(500).json(err))
 })
+
+const jwt = require('jsonwebtoken')
+
+router.route('/user/co').get(async(req, res)=>{
+    user.findOne({ mail: req.body.mail})
+    .then(utilisateur=>{
+        if (!utilisateur) {
+            return res.status(400).json({ message: "Utilisateur inexistant" })
+        }
+        bcrypt.compare(req.body.mdp, utilisateur.mdp)
+        .then(valid=>{
+            if (!valid) {
+                return res.status(400).json("Mot de passe incorrect")
+            }
+            res.status(200).json({
+                userId: utilisateur._id,
+                token: jwt.sign(
+                    { userId: utilisateur._id },
+                    'RANDOM_TOKEN_SECRET',
+                    { expiresIn: '24h' }
+                )
+            });
+        })
+    })
+    .catch(err=>res.status(500).json(err))
+})
