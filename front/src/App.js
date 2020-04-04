@@ -1,8 +1,10 @@
 import React from 'react';
+import './App.css'
 import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 
 import Liste from './Components/Liste'
 import Detail from './Components/Detail'
+//import Inscription from './Components/Inscription'
 import Inscription from './Components/Inscription'
 import NotFound from './Components/NotFound'
 

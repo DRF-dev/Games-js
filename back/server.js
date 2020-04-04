@@ -26,11 +26,17 @@ const limiter = rateLimit({
 app.use(limiter)
 app.use(morgan('common'))
 app.use(cors())
+app.use((req, res, next) => { //parce que app.use(cors()) ne marche pas tout le temps
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    next();
+});
 app.use(bodyParser.json())
 
 //Base de donnée
 const db = "mongodb+srv://DRF:0614012176Df99@cluster0-ybmru.mongodb.net/test?retryWrites=true&w=majority"
-mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
     .then(()=>console.log('Base de donnée connecté'))
     .catch(err => console.log(err))
 
@@ -104,15 +110,24 @@ const userSchema = new schema({
 userSchema.plugin(uniqueValidator)
 let user = mongoose.model("user", userSchema)
 
+const bcrypt = require('bcrypt')
+
 router.route('/user/add').post(async (req, res)=>{
-    const newUser = new user(req.body)
-    newUser.save()
-    .then(()=>{
-        console.log('Sauvegarde réussi')
-        res.status(200).json('Sauvegarde réussi')
+    bcrypt.hash(req.body.mdp, 10)
+    .then(hash=>{
+        const newUser = new user({
+            ...req.body,
+            mdp: hash
+        })
+        newUser.save()
+        .then(()=> res.status(200).json({message: "utilisateur créé avec succès"}))
+        .catch(error=> res.status(500).json(error))
     })
-    .catch(err=>{
-        res.status(400).json(err),
-        console.log(err)
-    })
+    .catch(error=> res.status(501).json({error}))
+})
+
+router.route('/user/all').get(async(req, res)=>{
+    user.find()
+    .then(users=> res.status(200).json(users))
+    .catch(err=> res.status(500).json(err))
 })

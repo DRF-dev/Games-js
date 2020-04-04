@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,14 @@
   to {
     transform: rotate(360deg);
   }
+} */
+#messageInscription{
+  position: absolute;
+  width: 25%;
+  transform: translateX(-100%);
+  top: 1%;
+  left: 99%;
+  display: none;
 }
+
+
