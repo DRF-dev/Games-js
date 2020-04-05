@@ -29,7 +29,7 @@ class Connexion extends React.Component{
         console.log(this.state)
         return(
             <div style={{overflow: 'hidden'}}>
-                <Navigation inscription="active disabled" style={{index: -1}}/>
+                <Navigation connexion="active disabled" style={{index: -1}}/>
                 <div className="row">
                     <div className="col-12 d-flex justify-content-center mb-3">
                         <h1>Connexion</h1>
