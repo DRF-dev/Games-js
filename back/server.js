@@ -134,7 +134,7 @@ router.route('/user/all').get(async(req, res)=>{
 
 const jwt = require('jsonwebtoken')
 
-router.route('/user/co').get(async(req, res)=>{
+router.route('/user/co').post(async(req, res)=>{
     user.findOne({ mail: req.body.mail})
     .then(utilisateur=>{
         if (!utilisateur) {
@@ -157,3 +157,30 @@ router.route('/user/co').get(async(req, res)=>{
     })
     .catch(err=>res.status(500).json(err))
 })
+
+//Schema chat
+const chatSchema = new schema({
+    pseudo: String,
+    message: String
+},{timestamps: true})
+let chat = mongoose.model("chat", chatSchema)
+
+router.route("/chat/add").post(async(req, res)=>{
+    const newMess = new chat(req.body)
+    newMess.save()
+    .then(()=>res.status(200).json({ mess: "Message enrengistré" }))
+    .catch(err=> res.status(500).json(err))
+})
+router.route('/chat/all').get((req, res)=>{
+    chat.find()
+    .then(messages=> res.status(200).json(messages))
+    .catch(err=>res.status(500).json(err))
+})
+
+//chat en temps réél = socket.io
+/* const server = require('http').createServer(app)
+const io = require('socket.io').listen(server) */
+
+/* io.sockets.on("connection", (socket)=>{
+    
+}) */

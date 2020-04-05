@@ -16,9 +16,11 @@
     "express": "^4.17.1",
     "express-rate-limit": "^5.1.1",
     "helmet": "^3.22.0",
+    "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.6",
     "mongoose-unique-validator": "^2.0.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "socket.io": "^2.3.0"
   }
 }

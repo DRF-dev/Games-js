@@ -1,8 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-class Navigation extends React.Component{
+interface lesProps {
+    inscription:String,
+    connexion:String,
+    chat:String
+}
+
+class Navigation extends React.Component<lesProps>{
     render(){
+        const { inscription, connexion, chat } = this.props
         return(
             <nav className="navbar navbar-light bg-light">
                 <div className="row w-100">
@@ -12,8 +19,9 @@ class Navigation extends React.Component{
                     <div className="col-4 offset-4">
                         <ul className="navbar-nav">
                             <li className="nav-item d-flex flex-column flex-md-row w-100 justify-content-around">
-                                <Link to="/inscription" className={"nav-link "+this.props.inscription}>Inscription</Link>
-                                <Link to="/connexion" className={"nav-link "+this.props.connexion}>Connexion</Link>
+                                <Link to="/inscription" className={"nav-link "+ inscription}>Inscription</Link>
+                                <Link to="/connexion" className={"nav-link "+ connexion}>Connexion</Link>
+                                <Link to="/chat" className={"nav-link "+ chat}>Chat</Link>
                             </li>
                         </ul>
                     </div>
