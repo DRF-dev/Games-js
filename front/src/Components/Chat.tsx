@@ -1,12 +1,12 @@
 import React from "react"
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
-//import io from "socket.io-client"
+import io from "socket.io-client"
 import axios from 'axios'
 
 import Navigation from "./props/Navigation"
 
 interface lesStates {
-    listeMessages: Array<any>,
+    listeMessages: any,
     messageEnCours: string,
     pseudoEnCours: string,
 }
@@ -22,7 +22,7 @@ export default class Chat extends React.Component<{},lesStates>{
         }
     }
 
-    listeMessage = ()=>{        
+    listeMessage = ()=>{  
         axios.get("http://localhost:4000/chat/all")
         .then(res=>{
             this.setState({
@@ -30,21 +30,30 @@ export default class Chat extends React.Component<{},lesStates>{
                 listeMessages: res.data
             })
         })
+        .catch(err=>console.log(err))
     }
 
     componentDidMount = ()=>{
         this.listeMessage()
-        /* const socket = io.connect("http://localhost:4000/")
-        socket.on("listeMessage", (element:any)=>{ console.log(element)}) */
     }
 
     newMessage = (e:any)=>{
         e.preventDefault()
         if (this.state.messageEnCours !== '' && this.state.pseudoEnCours !== '') {
+            const socket = io.connect("http://localhost:4000/")
+
             const newMessage = {
                 pseudo: this.state.pseudoEnCours,
                 message: this.state.messageEnCours
             }
+
+            socket.emit("listeMessage", newMessage) 
+            socket.on("TempReel", (elm:{pseudo:string, message:string}) => {
+                const newLine = document.createElement("li")
+                newLine.innerHTML = `<strong>${elm.pseudo}</strong> : ${elm.message}`
+                document.getElementsByTagName("ul")[1].appendChild(newLine)
+            }) 
+
             this.setState({
                 ...this.state,
                 pseudoEnCours: "",
@@ -53,14 +62,12 @@ export default class Chat extends React.Component<{},lesStates>{
             axios.post("http://localhost:4000/chat/add", newMessage)
             .then(res=> {
                 console.log(res.data.mess)
-                this.listeMessage()
             })
             .catch(err=>console.log(err))
         }
     }
 
     render(){
-        console.log(this.state)
         const {listeMessages, messageEnCours, pseudoEnCours} = this.state
         return(
             <Container fluid>
@@ -70,7 +77,7 @@ export default class Chat extends React.Component<{},lesStates>{
                         <h1>Zone de chat</h1>
                         <div className="w-50">
                             <ul className="mt-5 mb-5">
-                                {listeMessages.map(element=>{
+                                {listeMessages.map((element:{_id:any, pseudo:string, message:string})=>{
                                     return <li key={element._id}><strong>{element.pseudo}</strong> : {element.message}</li>
                                 })}
                             </ul>

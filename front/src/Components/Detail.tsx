@@ -35,7 +35,6 @@ class Detail extends React.Component<{} & RouteComponentProps,lesStates>{
     }
 
     render(){
-        console.log(this.state.parametre)
         return(
             <div>
                 <Navigation inscription="" connexion="" chat=""/>

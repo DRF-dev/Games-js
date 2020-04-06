@@ -7,11 +7,6 @@ require('dotenv').config()// A l'air d'être utile pour se connecter en tant qu'
 const app = express()
 const schema = mongoose.Schema;
 
-//Le serveur écoute le port 4000
-//const port = process.env.PORT;
-const port = 4000;
-app.listen(port, ()=>{ console.log(`Le serveur fonctionne sur le port ${port}`)})
-
 //Element basique de sécurité
 const helmet = require('helmet') //Protège des faille de sécurité basique comme la faille XSS
 const rateLimit = require('express-rate-limit') //Limite le nombre de requete http qu'une adresse IP peut faire sur une durée déterminé
@@ -178,9 +173,19 @@ router.route('/chat/all').get((req, res)=>{
 })
 
 //chat en temps réél = socket.io
-/* const server = require('http').createServer(app)
-const io = require('socket.io').listen(server) */
+const server = require('http').createServer(app)
+const io = require('socket.io').listen(server)
 
-/* io.sockets.on("connection", (socket)=>{
-    
-}) */
+io.sockets.on("connection", (socket)=>{
+    let tempReel;
+    socket.on("listeMessage", (elm)=>{ 
+        tempReel = elm  
+        //("TempReel", tempReel)
+        socket.broadcast.emit("TempReel", tempReel)
+    })
+})
+
+//Le serveur écoute le port 4000
+//const port = process.env.PORT;
+const port = 4000;
+server.listen(port, ()=>{ console.log(`Le serveur fonctionne sur le port ${port}`)})
