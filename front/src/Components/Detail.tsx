@@ -1,14 +1,21 @@
 import React from 'react'
 import axios from 'axios'
 
+
 import Navigation from './props/Navigation'
+import { RouteComponentProps } from 'react-router'
 
-class Detail extends React.Component{
+interface lesStates{
+    parametre: any,
+    item:any,
+}
 
-    constructor(props){
+class Detail extends React.Component<{} & RouteComponentProps,lesStates>{
+
+    constructor(props:any){
         super(props)
         this.state = {
-            parametre: this.props.match.params.id,
+            parametre: (this.props.match.params as any).id,
             item: []
         }
     }
@@ -28,9 +35,10 @@ class Detail extends React.Component{
     }
 
     render(){
+        console.log(this.state.parametre)
         return(
             <div>
-                <Navigation/>
+                <Navigation inscription="" connexion="" chat=""/>
                 <div className="container">
                     <div className="row">
                         <div className="col-12">

@@ -1,11 +1,17 @@
 import React from 'react'
 import axios from 'axios'
+import CSS from "csstype"
 
 import Navigation from './props/Navigation'
 
-class Connexion extends React.Component{
+interface states{
+    mail: string,
+    mdp: string
+}
 
-    constructor(props){
+class Connexion extends React.Component<{},states>{
+
+    constructor(props:any){
         super(props)
         this.state = {
             mail: "",
@@ -13,7 +19,7 @@ class Connexion extends React.Component{
         }
     }
 
-    formulaire = (e)=>{
+    formulaire = (e:any)=>{
         e.preventDefault()
         const connexion = {
             mail: this.state.mail,
@@ -27,9 +33,14 @@ class Connexion extends React.Component{
     }
 
     render(){
+        const navStyle: CSS.Properties = {
+            zIndex: -1
+        }
         return(
             <div style={{overflow: 'hidden'}}>
-                <Navigation connexion="active disabled" style={{index: -1}}/>
+                <div style={navStyle}>
+                    <Navigation connexion="active disabled" chat="" inscription=""/>
+                </div>
                 <div className="row">
                     <div className="col-12 d-flex justify-content-center mb-3">
                         <h1>Connexion</h1>
@@ -45,7 +56,7 @@ class Connexion extends React.Component{
                                     <label htmlFor="prenom">Password</label>
                                     <input type="password" className="form-control" placeholder="Entrez votre mot de passe" onChange={(e)=>this.setState({...this.state, mdp: e.target.value})} value={this.state.mdp}/>
                                 </div>
-                                <button type="submit" className="btn btn-outline-success" data-toggle="button" aria-pressed="false" autoComplete="off">Envoyer</button>
+                                <button type="submit" className="btn btn-outline-success" /* data-toggle="button" aria-pressed="false" autoComplete="off" */>Envoyer</button>
                             </div>
                         </div>
                     </form>
