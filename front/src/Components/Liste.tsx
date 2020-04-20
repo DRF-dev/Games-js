@@ -158,7 +158,7 @@ export default class Liste extends React.Component<{},states>{
                                         <article className="list-group-item" key={item._id}>
                                             <div className="row">
                                                 <div className="col-10 d-flex align-items-center align-items-md-end">
-                                                    <h2 className="h4"><Link to={"/game/"+item._id} className="text-secondary text-decoration-none">{item.name}</Link></h2>
+                                                    <h2 className="h4"><Link to={`/game/${item._id}`} className="text-secondary text-decoration-none">{item.name}</Link></h2>
                                                 </div>
                                                 <div className="col-2">
                                                     <button className="btn-lg btn-outline-danger my-2 my-sm-0" onClick={()=>this.suppression(item)}>
