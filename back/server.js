@@ -168,24 +168,21 @@ router.route("/chat/add").post(async(req, res)=>{
 })
 router.route('/chat/all').get((req, res)=>{
     chat.find()
-    .then(messages=> res.status(200).json(messages))
-    .catch(err=>res.status(500).json(err))
-})
-
-//chat en temps réél = socket.io
-const server = require('http').createServer(app)
-const io = require('socket.io').listen(server)
-
-io.sockets.on("connection", (socket)=>{
-    let tempReel;
-    socket.on("listeMessage", (elm)=>{ 
-        tempReel = elm  
-        //("TempReel", tempReel)
-        socket.broadcast.emit("TempReel", tempReel)
+    .then((messages)=> {
+        if (messages.length > 10) {
+            let array = []
+            for (let i = messages.length - 1; i > messages.length - 10; i--) {
+                array.unshift(messages[i])
+            }
+            console.log(array)
+            return res.status(200).json(array) 
+        }
+        return res.status(200).json(messages) 
     })
+    .catch(err=>res.status(500).json(err))
 })
 
 //Le serveur écoute le port 4000
 //const port = process.env.PORT;
 const port = 4000;
-server.listen(port, ()=>{ console.log(`Le serveur fonctionne sur le port ${port}`)})
+app.listen(port, ()=>{ console.log(`Le serveur fonctionne sur le port ${port}`)})
