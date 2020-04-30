@@ -2,6 +2,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const sockets = require('socket.io')
 require('dotenv').config()// A l'air d'être utile pour se connecter en tant qu'utilisateur
 
 const app = express()
@@ -182,7 +183,19 @@ router.route('/chat/all').get((req, res)=>{
     .catch(err=>res.status(500).json(err))
 })
 
+const http = require('http')
+const serveur = http.createServer(app)
+const io = sockets(serveur)
+
+let tempReel;
+io.sockets.on("connection", (socket)=>{
+    socket.on("listeMessage", (elm)=>{ 
+        tempReel = elm  
+        socket.emit("TempReel", tempReel)
+        socket.broadcast.emit("TempReel", tempReel)
+    })
+})
+
 //Le serveur écoute le port 4000
-//const port = process.env.PORT;
-const port = 4000;
-app.listen(port, ()=>{ console.log(`Le serveur fonctionne sur le port ${port}`)})
+const port = process.env.PORT || 4000;
+serveur.listen(port, ()=>{ console.log(`Le serveur fonctionne sur le port ${port}`)})

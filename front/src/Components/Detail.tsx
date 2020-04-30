@@ -1,7 +1,6 @@
 import React from 'react'
 import axios from 'axios'
 
-
 import Navigation from './props/Navigation'
 import { RouteComponentProps } from 'react-router'
 
@@ -15,7 +14,7 @@ class Detail extends React.Component<{} & RouteComponentProps,lesStates>{
     constructor(props:any){
         super(props)
         this.state = {
-            parametre: (this.props.match.params as any).id,
+            parametre: (this.props.match.params as {id:string}).id,
             item: []
         }
     }

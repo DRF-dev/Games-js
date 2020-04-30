@@ -11,6 +11,8 @@ interface lesStates {
     pseudoEnCours: string,
 }
 
+let socket = io("http://localhost:4000")
+
 export default class Chat extends React.Component<{},lesStates>{
 
     constructor(public props:any){
@@ -35,12 +37,16 @@ export default class Chat extends React.Component<{},lesStates>{
 
     componentDidMount = ()=>{
         this.listeMessage()
+        socket.on("TempReel", (elm:{pseudo:string, message:string}) => {
+            const newLine = document.createElement("li")
+            newLine.innerHTML = `<strong>${elm.pseudo}</strong> : ${elm.message}`
+            document.getElementsByTagName("ul")[1].appendChild(newLine)
+        }) 
     }
 
     newMessage = (e:any)=>{
         e.preventDefault()
         if (this.state.messageEnCours !== '' && this.state.pseudoEnCours !== '') {
-            const socket = io.connect("http://localhost:4000/")
 
             const newMessage = {
                 pseudo: this.state.pseudoEnCours,
@@ -48,11 +54,6 @@ export default class Chat extends React.Component<{},lesStates>{
             }
 
             socket.emit("listeMessage", newMessage) 
-            socket.on("TempReel", (elm:{pseudo:string, message:string}) => {
-                const newLine = document.createElement("li")
-                newLine.innerHTML = `<strong>${elm.pseudo}</strong> : ${elm.message}`
-                document.getElementsByTagName("ul")[1].appendChild(newLine)
-            }) 
 
             this.setState({
                 ...this.state,
