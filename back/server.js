@@ -130,7 +130,7 @@ router.route('/user/all').get(async(req, res)=>{
 
 const jwt = require('jsonwebtoken')
 
-router.route('/user/co').post(async(req, res)=>{
+router.route('/user/co').post((req, res)=>{
     user.findOne({ mail: req.body.mail})
     .then(utilisateur=>{
         if (!utilisateur) {

@@ -2,9 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 interface lesProps {
-    inscription:String,
-    connexion:String,
-    chat:String
+    inscription?:String,
+    connexion?:String,
+    chat?:String
 }
 
 class Navigation extends React.Component<lesProps>{

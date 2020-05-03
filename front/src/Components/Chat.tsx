@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Props } from "react"
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import io from "socket.io-client"
 import axios from 'axios'
@@ -15,7 +15,7 @@ let socket = io("http://localhost:4000")
 
 export default class Chat extends React.Component<{},lesStates>{
 
-    constructor(public props:any){
+    constructor(public props:Props<any>){
         super(props)
         this.state = {
             listeMessages: [],
@@ -44,7 +44,7 @@ export default class Chat extends React.Component<{},lesStates>{
         }) 
     }
 
-    newMessage = (e:any)=>{
+    newMessage = (e:Event)=>{
         e.preventDefault()
         if (this.state.messageEnCours !== '' && this.state.pseudoEnCours !== '') {
 
@@ -70,6 +70,7 @@ export default class Chat extends React.Component<{},lesStates>{
 
     render(){
         const {listeMessages, messageEnCours, pseudoEnCours} = this.state
+        console.log(this)
         return(
             <Container fluid>
                 <Navigation chat="active disabled" connexion="" inscription=""/>

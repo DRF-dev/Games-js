@@ -1,22 +1,34 @@
 import React from 'react'
 import axios from 'axios'
 import CSS from "csstype"
+import { connect } from "react-redux"
 
 import Navigation from './props/Navigation'
 
 interface states{
     mail: string,
-    mdp: string
+    mdp: string,
+    utilisateur?:string
 }
 
-class Connexion extends React.Component<{},states>{
+class Connexion extends React.Component<{dispatch:any},states>{
 
     constructor(props:any){
         super(props)
         this.state = {
             mail: "",
-            mdp: ""
+            mdp: "",
+            utilisateur:null
         }
+    }
+
+    componentDidUpdate =()=>{
+        this._envoiStateGlobal()
+    }
+
+    _envoiStateGlobal = () => {
+        const action = { type: 'user', value: this.state.utilisateur}
+        this.props.dispatch(action)
     }
 
     formulaire = (e:any)=>{
@@ -27,7 +39,8 @@ class Connexion extends React.Component<{},states>{
         }
         axios.post("http://localhost:4000/user/co", connexion)
         .then(res=>{
-            console.log(res.data)
+            this.setState({...this.state, utilisateur: res.data.userId})
+            this._envoiStateGlobal()
         })
         .catch(err=> console.log(err))
     }
@@ -39,7 +52,7 @@ class Connexion extends React.Component<{},states>{
         return(
             <div style={{overflow: 'hidden'}}>
                 <div style={navStyle}>
-                    <Navigation connexion="active disabled" chat="" inscription=""/>
+                    <Navigation connexion="active disabled"/>
                 </div>
                 <div className="row">
                     <div className="col-12 d-flex justify-content-center mb-3">
@@ -66,4 +79,11 @@ class Connexion extends React.Component<{},states>{
     }
 }
 
-export default Connexion
+const mapStateToProps = state => {
+    console.log(state.user)
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps)(Connexion)

@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import {Properties} from "csstype"
+import { Properties } from "csstype"
 
 import Navigation from './props/Navigation'
 
@@ -29,7 +29,7 @@ class Inscription extends React.Component<{},states>{
         }
     }
 
-    listeMailExistant = ()=>{
+    private listeMailExistant() {
         axios.get("http://localhost:4000/user/all")
         .then(res=>{
             const data = res.data
